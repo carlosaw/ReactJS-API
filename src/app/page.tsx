@@ -1,51 +1,46 @@
 "use client";
 
 import { User } from "@/types/User";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Page = () => {
-  const [ users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  const [legendInput, setLegendInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Faz a requisição.
-  useEffect(() => {
-    //console.log("Etapa 1");
-    //console.log("Etapa 2");
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(json => {
-        setUsers(json);
-      })
-      .catch(() => {
-        console.log("DEU ALGO ERRADO!");
-      })
-      .finally(() => {
-        setLoading(false);
-        //console.log("TERMINOU TODA A REQUISIÇÂO...")
-      });
-      //console.log("Etapa 4");
-  }, []);
-  
-  return ( 
-  
-    <div className="container mx-auto w-96">
-      <h1 className="text-3xl text-center mt-10">Lista de usuários</h1>
-      {loading && "Carregando..."}
-      {!loading && users.length > 0 &&
-        <ul>
-          {users.map(item => (
-            <li key={item.id} className="border-b p-4">
-              <p className="text-2xl">{item.name}</p> 
-              EMAIL: {item.email} 
-              <p>END: Rua {item.address.street}</p>
-              CIDADE: {item.address.city}
-              <p>CEP: {item.address.zipcode}</p>
-              FONE: {item.phone}
-            </li>
-          ))}
-        </ul>
-      } 
-      {!loading && users.length === 0 && "Não há usuários para exibir!"}     
+  const handleFileSend = async () => {
+    //console.log(fileInputRef.current?.files);
+    if(fileInputRef.current?.files && fileInputRef.current.files.length > 0) {
+      // Pega o arquivo escolhido
+      const fileItem  = fileInputRef.current.files[0];
+      //console.log(fileItem);
+
+      
+
+
+    } else {
+      alert('Selecione um arquivo!');
+    }
+  }
+
+  return (  
+    <div className="container mx-auto flex flex-col items-center">
+      <h1 className="text-3xl text-center mt-10 mb-10">Upload de Imagens</h1>
+
+      <div className="max-w-md flex flex-col gap-4 border border-dotted border-white p-3 mt-2">
+        <input 
+          type="file"
+          ref={fileInputRef}
+        /> 
+        <input
+          type="text" 
+          placeholder="Digite uma legenda"
+          className="p-3 bg-white rounded-md text-black"
+          value={legendInput}
+          onChange={e => setLegendInput(e.target.value)}
+        />
+        <button onClick={handleFileSend}>Enviar imagem</button>
+      </div>
     </div>      
   );  
 }
