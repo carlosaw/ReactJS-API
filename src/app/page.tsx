@@ -1,32 +1,30 @@
 "use client";
 
 import { api } from "@/utils/api";
+import axios from "axios";
+import { useRef } from "react";
 
 const Page = () => {
+  const controller = new AbortController();
 
-  const handleGetPost = async () => {
-    const response = await api.get('/posts',);
-    console.log(response);
+  const handleStartRequest = async () => {
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+        signal: controller.signal
+      });
+    } catch(error) {
+      console.log('Deu algum problema!');
+    }    
   }
 
-  const handleAddPost = async () => {
-    const response = await api.post('/posts', {
-      userId: 98,
-      title: 'titulo do post',
-      body: 'corpo do post'
-    });
-    if(response.data.id) {
-      console.log('Inseriu beleza');
-    } else {
-      console.log('Não houve inserção!');
-    }
-    
+  const handleCancelRequest = () => {
+    controller.abort();
   }
   
   return (  
-    <div className="container mx-auto flex flex-col items-center">
-      <button onClick={handleAddPost}>Adicionar Post</button>
-      <button onClick={handleGetPost}>Pegar Posts</button>
+    <div className="container mx-auto flex flex-col items-center gap-3">
+      <button onClick={handleStartRequest}>Fazer</button>
+      <button onClick={handleCancelRequest}>Cancelar</button>
     </div>      
   );  
 }
