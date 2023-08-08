@@ -1,16 +1,16 @@
 # Install dependencies
 - `npm install` 
 
-# Run project
+## Run project
 - `npm run dev`
 
-# Libs
+## Libs
 ReactsJS + Next + typescript + tailwind
 
-# GitHub
+## GitHub
 [github](https://github.com/carlosaw/ReactJS-API)
 
-# Instructions
+## Instructions
 
 Abra [http://localhost:3000](http://localhost:3000) com seu navegador para ver o resultado.
 
